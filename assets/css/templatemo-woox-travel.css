@@ -373,12 +373,12 @@ Header Style
 }
 
 .header-area .main-nav .logo img {
-  width: 159px;
+  width: 250px;
   margin-top: 15px;
 }
 
 .background-header .main-nav .logo img {
-  width: 159px;
+  width: 250px;
 }
 
 .header-area .main-nav .nav {
@@ -798,6 +798,8 @@ Banner Style
   box-sizing: border-box;
 }
 #section-1 .content-slider .slider .banner .banner-inner-wrapper .main-caption {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
   position: absolute;
   width: 100%;
   top: 40%;
