@@ -53,9 +53,9 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="index.html">Hallo</a></li>
-				<li><a href="deals.html">Fastenwandern</a></li>
+				<li><a href="fastenwandern">Fastenwandern</a></li>
                         <li><a href="reservation.html">Veranstaltungen</a></li>
-				<li><a href="about.html" class="active">Über mich</a></li>  
+				<li><a href="ueber-mich" class="active">Über mich</a></li>  
                         <li><a href="contact.html">Kontakt</a></li>
                     </ul>   
                     <a class='menu-trigger'>
