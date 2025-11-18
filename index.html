@@ -104,6 +104,50 @@
   
   <!-- Impressionen Gallery Start -->
 
+  <!-- Haupt-Wrapper der Galerie -->
+  <main class="gallery-root" aria-label="Bildergalerie">
+    <!-- Live-Region: Ankündigung für Screenreader, visuell versteckt -->
+    <div id="galleryAnnounce" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Bereich für das große Bild; role region mit beschreibendem Label -->
+    <section class="viewer" role="region" aria-label="Großansicht" aria-describedby="thumbsDesc">
+      <!-- Button: vorheriges Bild (aria-controls verweist auf das Hauptbild) -->
+      <button class="nav-btn prev" aria-label="Vorheriges Bild" id="btnPrev" aria-controls="mainImage">
+        ‹
+      </button>
+
+      <!-- Großes Bild mit Titel und Beschreibung -->
+      <figure class="photo-card">
+        <!-- Bild selbst: mit aria-labelledby / aria-describedby verknüpft -->
+        <img id="mainImage" src="" alt="" loading="eager"
+             role="img"
+             aria-labelledby="imageTitle"
+             aria-describedby="imageDescription" />
+
+        <!-- Bildtext: Titel und Beschreibung -->
+        <figcaption class="meta">
+          <h2 id="imageTitle"></h2>
+          <p id="imageDescription"></p>
+        </figcaption>
+      </figure>
+
+      <!-- Button: nächstes Bild -->
+      <button class="nav-btn next" aria-label="Nächstes Bild" id="btnNext" aria-controls="mainImage">
+        ›
+      </button>
+    </section>
+
+    <!-- Thumbnails Leiste: eine Region mit zusätzlicher Beschreibung -->
+    <section class="thumbnails" aria-label="Vorschaubilder" id="thumbs" tabindex="-1">
+      <p id="thumbsDesc" class="visually-hidden">Benutzen Sie Pfeiltasten oder Tab, um Vorschaubilder zu wählen. Enter oder Leertaste zeigt das Bild.</p>
+      <div class="thumb-list" id="thumbList" role="list">
+        <!-- Thumbnails werden per JS eingefügt -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Skript (enthält das images-Array und die Galerielogik) -->
+  <script src="script.js"></script>
   <!-- Impressionen End -->
 
   <!-- Footer -->
@@ -165,6 +209,7 @@
 
 </body>
 </html>
+
 
 
 
