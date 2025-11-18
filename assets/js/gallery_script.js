@@ -1,0 +1,239 @@
+/* gallery_script.js
+   ARIA-verbesserte Galerie-Logik
+   - images-Array (vom Nutzer)
+   - Roving tabindex für Thumbnails
+   - aria-live Ankündigungen
+   - keyboard support für viewer und thumbnails
+*/
+
+/* --------------------------
+   Bilder-Daten (vom Nutzer)
+   -------------------------- */
+const images = [
+  { id: 1, title: "Frühsport als Gruppe", alt: "Frühsport in der Gruppe in der freien Natur", description: "Frühsport in der Gruppe in der Natur", src: "assets/images/tmp/aktuell/Fruehsport_in_der_Natur_ck.jpeg", thumb: "assets/images/tmp/aktuell/Fruehsport_in_der_Natur_ck.jpeg" },
+  { id: 2, title: "Zeit in der Natur", alt: "Landschaftsaufnahme einer grünen Wiese", description: "Grüne Landschaften und Erholung", src: "assets/images/tmp/aktuell/Landschaftsaufnahme_ck.jpeg", thumb: "assets/images/tmp/aktuell/Landschaftsaufnahme_ck.jpeg" },
+  { id: 3, title: "Unterkunft im Jagdschloss", alt: "Ein rötliches Gästehaus namens 'Jagdschloss'", description: "Gemütliche Unterkunft im historischen Jagdschloss", src: "assets/images/tmp/aktuell/Jadgschloss_Unterkunft_breit_zom_in_ck.jpeg", thumb: "assets/images/tmp/aktuell/Jadgschloss_Unterkunft_breit_zom_in_ck.jpeg" },
+  { id: 4, title: "Frische Tee‑Auswahl", alt: "Diverse Gefäße mit Tees und Auszügen", description: "Handverlesene, täglich frische Tees", src: "assets/images/tmp/aktuell/Tees_und_Auszuege_ck.jpeg", thumb: "assets/images/tmp/aktuell/Tees_und_Auszuege_ck.jpeg" },
+  { id: 5, title: "Gemeinsame Morgenrunde", alt: "Wildkräuter in einer Vase auf einem Tisch", description: "Start in den Tag mit frischen Wildkräutern", src: "assets/images/tmp/aktuell/Wildkrauter_Strauß_zoom_in_ck.jpeg", thumb: "assets/images/tmp/aktuell/Wildkrauter_Strauß_zoom_in_ck.jpeg" },
+  { id: 6, title: "Ansprechende Wanderrouten", alt: "Ein Paar Wanderer im herbstlichen Wald in der Sonne", description: "Erlebnisreiche Wanderungen im Grünen", src: "assets/images/Paar_im_Wald.jpeg", thumb: "assets/images/Paar_im_Wald.jpeg" },
+  { id: 7, title: "Natur erleben", alt: "Steinbänke an einem steinernen Hang", description: "Steinbänke und Entspannung in der Natur", src: "assets/images/Fichtelgebirge_Steinbaenke.jpg", thumb: "assets/images/Fichtelgebirge_Steinbaenke.jpg" },
+  { id: 8, title: "Vielfältige Fastenverpflegung", alt: "Eine Reihe an Tees und Auszügen auf einem Tisch", description: "Gesunde Fastenverpflegung für alle Teilnehmenden", src: "assets/images/tmp/aktuell/Tees_und_Auszuege_ck.jpeg", thumb: "assets/images/tmp/aktuell/Tees_und_Auszuege_ck.jpeg" },
+  { id: 9, title: "Erfahrene FW‑Leiterin", alt: "Bild zeigt Christine, eine erfahrene Fastenwanderleiterin", description: "Professionelle Leitung Ihrer Fastenwanderung", src: "assets/images/tmp/aktuell/Christine_Fastenwanderleiterin_ck.jpeg", thumb: "assets/images/tmp/aktuell/Christine_Fastenwanderleiterin_ck.jpeg" },
+  { id: 10, title: "Abstand vom Alltag", alt: "Die Unterkunft mitten im Grünen", description: "Erholen, abschalten & neue Kraft tanken", src: "assets/images/tmp/Neues_Bild_Jagdschloss_Fahrenbuehl.jpg", thumb: "assets/images/tmp/Neues_Bild_Jagdschloss_Fahrenbuehl.jpg" },
+  { id: 11, title: "Zur Ruhe kommen", alt: "Ein grüner Garten mit Bänken", description: "Ruhe und Entspannung in grüner Umgebung", src: "assets/images/tmp/aktuell/Natur_vor_dem_Jagdschloss_ck.jpeg", thumb: "assets/images/tmp/aktuell/Natur_vor_dem_Jagdschloss_ck.jpeg" },
+  { id: 12, title: "Kleine Gruppen", alt: "Wandernde Personen in der Natur", description: "Persönliche Betreuung und Gemeinschaft", src: "assets/images/tmp/aktuell/kontakt_wandern_cut.jpg", thumb: "assets/images/tmp/aktuell/kontakt_wandern_cut.jpg" },
+  { id: 13, title: "Hunde willkommen", alt: "Zwei Hunde auf einer Wiese", description: "Auch Hunde mitbringen ist möglich", src: "assets/images/tmp/aktuell/Hundemitnahme_moeglich_ck.jpeg", thumb: "assets/images/tmp/aktuell/Hundemitnahme_moeglich_ck.jpeg" },
+  { id: 14, title: "Kneipp'sche Anwendungen", alt: "Ein steinerner Brunnen im Herbstwald", description: "Anwendungen nach Pfarrer Sebastian Kneipp", src: "assets/images/tmp/Brunnen_im_Wald.jpeg", thumb: "assets/images/tmp/Brunnen_im_Wald.jpeg" }
+];
+
+/* --------------------------
+   DOM-Referenzen
+   -------------------------- */
+const mainImageEl = document.getElementById('mainImage');
+const imageTitleEl = document.getElementById('imageTitle');
+const imageDescriptionEl = document.getElementById('imageDescription');
+const thumbListEl = document.getElementById('thumbList');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const announceEl = document.getElementById('galleryAnnounce');
+
+let currentIndex = 0;
+
+/* --------------------------
+   Initialisierung: Thumbnails erzeugen
+   ARIA: Roving tabindex + role listitem + aria-label
+   -------------------------- */
+function createThumbnails() {
+  images.forEach((img, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'thumb';
+    btn.setAttribute('role', 'listitem');
+    // ARIA label beschreibt Thumbnail (Index + Titel)
+    btn.setAttribute('aria-label', `${img.title} (${idx + 1} von ${images.length})`);
+    btn.dataset.index = idx;
+
+    // Roving tabindex: nur das aktive Thumbnail hat 0, andere -1
+    btn.tabIndex = idx === 0 ? 0 : -1;
+
+    // Kleines Vorschaubild
+    const im = document.createElement('img');
+    im.src = img.thumb;
+    im.alt = img.alt || img.title;
+    im.loading = 'lazy';
+    btn.appendChild(im);
+
+    // Klick -> zeigt das entsprechende Bild
+    btn.addEventListener('click', () => {
+      showImage(idx);
+      // nach Auswahl bleibt Fokus auf dem gewählten Thumbnail (Zugänglichkeit)
+      btn.focus();
+    });
+
+    // Tastaturunterstützung: Enter / Space zeigt Bild
+    btn.addEventListener('keydown', (e) => {
+      const key = e.key;
+      if (key === 'Enter' || key === ' ') {
+        e.preventDefault();
+        showImage(idx);
+        return;
+      }
+
+      // Roving focus navigation für Thumbnails
+      if (key === 'ArrowRight' || key === 'ArrowDown') {
+        e.preventDefault();
+        focusThumbnail(idx + 1);
+        return;
+      }
+      if (key === 'ArrowLeft' || key === 'ArrowUp') {
+        e.preventDefault();
+        focusThumbnail(idx - 1);
+        return;
+      }
+      if (key === 'Home') {
+        e.preventDefault();
+        focusThumbnail(0);
+        return;
+      }
+      if (key === 'End') {
+        e.preventDefault();
+        focusThumbnail(images.length - 1);
+        return;
+      }
+    });
+
+    thumbListEl.appendChild(btn);
+  });
+}
+
+/* --------------------------
+   Fokus auf Thumbnail verschieben (roving tabindex)
+   - setzt tabindex korrekt und fokusiert das Element
+   -------------------------- */
+function focusThumbnail(index) {
+  if (index < 0) index = images.length - 1;
+  if (index >= images.length) index = 0;
+
+  const items = Array.from(thumbListEl.children);
+  items.forEach((btn, i) => {
+    btn.tabIndex = i === index ? 0 : -1;
+  });
+  items[index].focus();
+}
+
+/* --------------------------
+   Anzeige eines Bildes aktualisieren
+   - aktualisiert aria-attributes, live region und aktives Thumbnail
+   -------------------------- */
+function showImage(index) {
+  if (index < 0) index = images.length - 1;
+  if (index >= images.length) index = 0;
+  currentIndex = index;
+
+  const data = images[currentIndex];
+
+  // Bild, Titel, Beschreibung setzen
+  mainImageEl.src = data.src;
+  mainImageEl.alt = data.alt || data.title; // Alt bleibt wichtig
+  imageTitleEl.textContent = data.title;
+  imageDescriptionEl.textContent = data.description;
+
+  // ARIA: aria-labelledby / aria-describedby sind bereits im HTML gesetzt,
+  // hier aktualisieren wir das aria-live-Ankündigungselement:
+  announceEl.textContent = `Bild ${currentIndex + 1} von ${images.length}: ${data.title}`;
+
+  // Aktives Thumbnail hervorheben und aria-current setzen
+  Array.from(thumbListEl.children).forEach((btn, i) => {
+    if (i === currentIndex) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-current', 'true');
+      // sicherstellen, dass das aktive Thumbnail tabbable ist (roving tabindex)
+      btn.tabIndex = 0;
+      // Thumbnail sichtbar machen (scrollIntoView)
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    } else {
+      btn.classList.remove('active');
+      btn.removeAttribute('aria-current');
+      btn.tabIndex = -1;
+    }
+  });
+}
+
+/* --------------------------
+   Navigation (Buttons)
+   - Buttons steuern das Hauptbild; haben aria-controls auf mainImage
+   -------------------------- */
+btnPrev.addEventListener('click', () => {
+  showImage(currentIndex - 1);
+  // nach Navigation ankündigen: Fokus nicht automatisch verschieben
+});
+
+btnNext.addEventListener('click', () => {
+  showImage(currentIndex + 1);
+});
+
+/* --------------------------
+   Tastaturnavigation für Viewer (Links/Rechts/Home/End)
+   - Globaler Handler für Komfort (funktioniert, wenn Fokus nicht in einem Eingabefeld ist)
+   -------------------------- */
+document.addEventListener('keydown', (e) => {
+  // Ignoriere, wenn ein Eingabefeld oder textarea aktiv ist
+  const active = document.activeElement;
+  if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) return;
+
+  if (e.key === 'ArrowRight') {
+    showImage(currentIndex + 1);
+  } else if (e.key === 'ArrowLeft') {
+    showImage(currentIndex - 1);
+  } else if (e.key === 'Home') {
+    showImage(0);
+  } else if (e.key === 'End') {
+    showImage(images.length - 1);
+  }
+});
+
+/* --------------------------
+   Touch (Swipe) Unterstützung (einfach)
+   -------------------------- */
+let touchStartX = 0;
+let touchEndX = 0;
+const swipeThreshold = 40; // Pixel
+
+mainImageEl.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+mainImageEl.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  const diff = touchEndX - touchStartX;
+  if (Math.abs(diff) > swipeThreshold) {
+    if (diff < 0) {
+      showImage(currentIndex + 1);
+    } else {
+      showImage(currentIndex - 1);
+    }
+  }
+});
+
+/* --------------------------
+   Bildlade-Fehler: Fallback
+   - Gibt eine verständliche Meldung und aktualisiert Live-Region
+   -------------------------- */
+mainImageEl.addEventListener('error', () => {
+  mainImageEl.src = '';
+  mainImageEl.alt = 'Bild konnte nicht geladen werden';
+  imageTitleEl.textContent = 'Bild nicht verfügbar';
+  imageDescriptionEl.textContent = 'Das Bild konnte nicht geladen werden. Bitte prüfen Sie den Pfad.';
+  announceEl.textContent = 'Ein Bild konnte nicht geladen werden.';
+});
+
+/* --------------------------
+   Start der Galerie
+   -------------------------- */
+createThumbnails();
+showImage(0); // Erstes Bild anzeigen beim Laden
+
+/* Hinweis:
+   - Die Thumbnails nutzen roving tabindex: nur das aktive Thumbnail ist tabbable (tabindex=0),
+     alle anderen sind tabindex=-1. Pfeiltasten verschieben den Fokus innerhalb der Thumbnails.
+   - Das #galleryAnnounce-Element ist eine aria-live Region, die beim Wechsel des Bildes
+     kurz den Titel und Position (z. B. "Bild 3 von 14: ...") ansagt.
+*/
