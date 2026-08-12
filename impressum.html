@@ -1,130 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <title>Fastenwandern</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-
-    <!-- End of Head -->
-</head>
-
-<body>
-
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="">
-                        </a>
-                        <!-- ***** Logo End ***** -->
-
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li><a href="index.html">Hallo</a></li>
-                            <li><a href="fastenwandern.html">Fastenwandern</a></li>
-                            <li><a href="veranstaltungen.html">Veranstaltungen</a></li>
-                            <li><a href="ueber-mich.html">Über mich</a></li>
-                            <li><a href="kontakt.html">Kontakt</a></li>
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
-    <!-- ***** About Me Section ***** -->
-    <div class="container">
-        <div class="row">
-            <h1>Impressum</h1>
-            <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
-            <p>Christine K&ouml;nig<br />
-                Dorfstra&szlig;e 21<br />
-                74653 Ingelfingen</p>
-            <h2>Kontakt</h2>
-            <p>Telefon: 015 156 198 783<br />
-                E-Mail: uess.koenig@gmail.com</p>
-            <p>Quelle: <a href="https://www.e-recht24.de/impressum-generator.html">e-Recht24</a></p>
-        
-        </div>
-    </div>
-
-
-    <footer id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 footer-leftcol">
-                    <p><span class="bold-16p">Christine König</span>
-                        <br>
-                        Dorfstraße 21
-                        <br>
-                        D-74653 Ingelfingen
-                    </p>
-                </div>
-                <div class="col-md-4 footer-midcol">
-                    <ul>
-                        <li>
-                            <p><span class="bold-16p">Telefon: 015 156 198 783</span>
-                        </li>
-                        <li>
-                            <p><span class="bold-16p">E-Mail: uess.koenig@gmail.com</span>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="col-md-4 footer-rightcol">
-                    <p><a href="datenschutz.html">Datenschutzhinweis</a></p>
-                    <p><a href="impressum.html">Impressum</a></p>
-                    <p>Design by Georgia König</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="assets/js/isotope.min.js"></script>
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/tabs.js"></script>
-    <script src="assets/js/popup.js"></script>
-    <script src="assets/js/custom.js"></script>
-
-    <script>
-        $(".option").click(function () {
-            $(".option").removeClass("active");
-            $(this).addClass("active");
-        });
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Impressum | Fasten mit Christine</title>
+    
+    <!-- JSON-LD Structured Data für KI-Crawler -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Christine König",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Dorfstraße 21",
+            "postalCode": "74653",
+            "addressLocality": "Ingelfingen",
+            "addressCountry": "DE"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+49-151-56198783",
+            "contactType": "customer service",
+            "email": "uess.koenig@gmail.com"
+        }
+    }
     </script>
-
+    
+    <style>
+        /* Barrierefreiheits-CSS */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #6d4aff;
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+        }
+        :focus {
+            outline: 3px solid #6d4aff;
+            outline-offset: 2px;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        a {
+            color: #6d4aff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip-Link für Tastatur-Navigation -->
+    <a href="#impressum-hauptinhalt" class="skip-link">Zum Impressum springen</a>
+    
+    <main id="impressum-hauptinhalt" role="main">
+        <article aria-labelledby="impressum-titel">
+            <header>
+                <h1 id="impressum-titel">Impressum</h1>
+                <p>Diese Seite wurde zuletzt aktualisiert am <time datetime="2026-08-12" aria-live="polite">12. August 2026</time>.</p>
+            </header>
+            
+            <section aria-labelledby="angaben-section">
+                <h2 id="angaben-section">Angaben gemäß § 5 DDG</h2>
+                <address itemscope itemtype="https://schema.org/Person">
+                    <p itemprop="name">Christine König</item><br>
+                    <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                        <span itemprop="streetAddress">Dorfstraße 21</span><br>
+                        <span itemprop="postalCode">74653</span> 
+                        <span itemprop="addressLocality">Ingelfingen</span><br>
+                        <span itemprop="addressCountry" lang="en">DE</span>
+                    </span>
+                </address>
+            </section>
+            
+            <section aria-labelledby="kontakt-section">
+                <h2 id="kontakt-section">Kontakt</h2>
+                <ul>
+                    <li>
+                        <a href="tel:+4915156198783" aria-label="Anrufen: +49 151 56198783">
+                            <span class="visually-hidden">Telefonnummer:</span>
+                            Telefon: 0151 56198783
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:uess.koenig@gmail.com" aria-label="E-Mail senden an: uess.koenig@gmail.com">
+                            <span class="visually-hidden">E-Mail-Adresse:</span>
+                            E-Mail: uess.koenig@gmail.com
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            
+            <section aria-labelledby="rechtlich-section">
+                <h2 id="rechtlich-section">Rechtliche Hinweise</h2>
+                <p>Haftung für Inhalte: Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+                <p>Quelle der Impressum-Vorlage: <a href="https://www.e-recht24.de/impressum-generator.html" aria-label="Externer Link: e-Recht24 Impressum Generator">e-Recht24</a></p>
+            </section>
+            
+            <section aria-labelledby="design-section">
+                <h2 id="design-section">Design &amp; Entwicklung</h2>
+                <p>Georgia König</p>
+                <p>Mehr über Georgia's Arbeit gibt es <a href="https://georgia-koenig.de/" aria-label="Externer Link: Georgia König's Webseite">hier</a></p>
+            </section>
+            
+            <footer>
+                <nav aria-label="Hauptnavigation">
+                    <ul>
+                        <li><a href="datenschutz.html" aria-label="Zur Datenschutzerklärung">Datenschutzhinweis</a></li>
+                        <li><a href="impressum.html" aria-label="Aktuelles Impressum (Sie befinden sich hier)">Impressum</a></li>
+                    </ul>
+                </nav>
+            </footer>
+        </article>
+    </main>
 </body>
-
 </html>
